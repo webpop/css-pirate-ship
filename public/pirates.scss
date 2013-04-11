@@ -29,7 +29,7 @@ html, body {
   @include background-image(linear-gradient(color-stops(hsl(203, 59%, 51%), rgb(0, 55, 78))));
 }
 
-.directions {
+#directions {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -39,6 +39,32 @@ html, body {
   @include inline-block;
   left: 0%;
   position: relative;
+  @include transition-delay(0s);
+  @include transition-duration(2s);
+  @include transition-property(translate);
+  @include transition-timing-function(ease);
+
+  &.go-0  { @include transform(translate3d(0%, 0px, 0px)); }
+  &.go-1  { @include transform(translate3d(-25%, 0px, 0px)); }
+  &.go-2  { @include transform(translate3d(-50%, 0px, 0px)); }
+  &.go-3  { @include transform(translate3d(-75%, 0px, 0px)); }
+  &.go-4  { @include transform(translate3d(-100%, 0px, 0px)); }
+
+  &.go-0-instant {
+    @include transition-delay(0s);
+    @include transition-duration(0s);
+    @include transition-property(translate);
+    @include transition-timing-function(ease);
+    @include transform(translate3d(0%, 0px, 0px));
+  }
+  &.go-4-instant {
+    @include transition-delay(0s);
+    @include transition-duration(0s);
+    @include transition-property(translate);
+    @include transition-timing-function(ease);
+    @include transform(translate3d(-100%, 0px, 0px));
+  }
+
   li {
     margin: 0;
     padding: 0;
@@ -70,7 +96,7 @@ html, body {
   font-family: arial;
   p {
     width: 300px;
-	white-space: normal;
+  white-space: normal;
     line-height: 1.5em;
   }
 }
@@ -407,7 +433,7 @@ $stripe-color: darken($bg-color, $darken-amount);
   border-radius: 100%;
   background-color: $bg-color;
   @include background-image(linear-gradient(0deg, $stripe-color 25%, transparent 25%, transparent 50%, $stripe-color 50%, $stripe-color 75%, transparent 75%, transparent));
-	box-shadow: inset 10px 15px 74px 0 hsla(0, 0%, 0%, 0.63);	
+  box-shadow: inset 10px 15px 74px 0 hsla(0, 0%, 0%, 0.63);
   background-size: 40px 40px;
   border: 1px solid hsl(19, 63%, 21%);
 }
@@ -516,10 +542,10 @@ $stripe-color: darken($bg-color, 5%);
   background-color: $bg-color;
   @include background-image(linear-gradient(0deg, $stripe-color 25%, transparent 25%, transparent 50%, $stripe-color 50%, $stripe-color 75%, transparent 75%, transparent));
   background-size: 20px 20px;
-  box-shadow: inset -5px -5px 34px -5px hsl(29, 76%, 6%);	
+  box-shadow: inset -5px -5px 34px -5px hsl(29, 76%, 6%);
 
   .mast {
-  	height: 100px;
+    height: 100px;
     width: 10px;
     background: darken(brown,10%);
     display: block;
@@ -545,7 +571,7 @@ $stripe-color: darken($bg-color, 5%);
       height: 90px;
       left: -20px;
       display: block;
-      border-radius: 40% 0 0 0; 
+      border-radius: 40% 0 0 0;
       box-shadow: inset -13px -21px 51px -5px hsl(29, 27%, 73%);
     }
   }
