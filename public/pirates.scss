@@ -1,0 +1,553 @@
+@import "compass";
+@import "_mixins";
+
+html, body {
+  @include background(radial-gradient(lighten(black, 10%), black 1000px));
+  height: 100%;
+  * {
+    @include box-sizing(border-box);
+  }
+}
+
+// Convenience classes
+.round {
+  border-radius: 100%;
+}
+
+// Background
+
+.background {
+  position: fixed;
+  width: 100%;
+}
+
+.ocean {
+  @extend .background;
+  bottom: 0;
+  height: 20%;
+  z-index: 10;
+  @include background-image(linear-gradient(color-stops(hsl(203, 59%, 51%), rgb(0, 55, 78))));
+}
+
+.directions {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 400%;
+  z-index: 1;
+  white-space: nowrap;
+  @include inline-block;
+  left: 0%;
+  position: relative;
+  li {
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    @include inline-block;
+    height: 80%;
+    position: relative;
+    z-index: 100;
+  }
+}
+
+
+.sky {
+  @extend .background;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: lighten(blue, 30%);
+  @include background-image(linear-gradient(color-stops(darken(#afdcff, 10%), lighten(#afdcff, 16%))));
+}
+
+.scroll {
+  background: hsl(39, 100%, 84%);
+  display: inline-block;
+  padding: 20px 40px;
+  position: absolute;
+  top: 20px;
+  right: 185px;
+  font-family: arial;
+  p {
+    width: 300px;
+	white-space: normal;
+    line-height: 1.5em;
+  }
+}
+
+.cloud {
+  top: 15%;
+  left: 15%;
+  position: absolute;
+  background: white;
+  width: 11%;
+  height: 20%;
+  border-radius: 80px;
+  @include box-shadow(inset -5px -10px 30px 0 hsla(1, 1%, 1%, 0.07));
+  &:before {
+    top: -43%;
+    left: 10%;
+    content: "";
+    width: 50%;
+    height: 110%;
+    position: relative;
+    display: block;
+    background: white;
+    border-radius: 100%;
+  }
+  &:after {
+    top: -30%;
+    left: 42%;
+    content: "";
+    width: 42%;
+    height: 80%;
+    position: absolute;
+    display: block;
+    background: white;
+    border-radius: 100%;
+  }
+}
+
+.cloud {
+  &:nth-child(2) {
+    left: 56%;
+    top: 36%;
+  }
+  &:nth-child(3) {
+    left: 76%;
+    width: 13%;
+  }
+  &.sun {
+    left: 70%;
+    bottom: 70px;
+    top: auto;
+  }
+  &.sun-2 {
+    left: 51%;
+    top: 61px;
+  }
+}
+
+#sun {
+  position: absolute;
+  bottom: 30px;
+  border-radius: 100px;
+  left: 12%;
+  background: hsl(55, 100%, 71%);
+  box-shadow: 0 0 145px -5px hsl(60, 100%, 93%);
+  width: 80px;
+  height: 80px;
+}
+
+$leaves: 1, 2, 3, 4, 5;
+$degrees: 360deg / length($leaves);
+
+.island {
+  z-index: 3;
+  position: absolute;
+  bottom: 28%;
+  left: 65%;
+  @include border-top-radius(100%);
+  width: 33%;
+  height: 32px;
+  background: brown;
+  @include background(linear-gradient(top left, hsl(38, 84%, 80%), hsl(16, 23%, 32%)));
+  .tree {
+    display: block;
+    width: 20px;
+    height: 83px;
+    left: 145px;
+    position: absolute;
+    bottom: 20px;
+    background: hsl(0, 59%, 41%);
+    @include background(linear-gradient(top left, hsl(37, 50%, 17%), hsl(2, 36%, 52%)));
+    z-index: -1;
+    border-radius: 100%;
+    > span {
+      @include triangle-base;
+      border-width: 24px 2px 33px 53px;
+      border-color: green transparent transparent transparent;
+    }
+  }
+}
+
+@each $leaf in $leaves {
+  .leaf-#{$leaf} {
+    @include simple-transform(1, $degrees * $leaf + 36, 0, 0, 0, 0, 10px, 0px);
+  }
+}
+
+.east .island {
+  left: 6%;
+  width: 9%;
+  bottom: 91%;
+  height: 25px;
+  @include background(linear-gradient(top left, hsl(16, 23%, 70%), hsl(38, 84%, 65%), hsl(16, 23%, 60%)));
+  .tree {
+    width: 10px;
+    height: 43px;
+    left: 32px;
+    > span {
+      border-width: 15px 2px 25px 31px;
+    }
+  }
+}
+
+
+$pointer-dark: hsl(200, 23%, 20%);
+$pointer-light: hsl(200, 23%, 90%);
+
+$compass-diameter: 120px;
+$pointer-height: $compass-diameter / 2;
+$pointer-width: $pointer-height / 4;
+
+#compass {
+  @include background-image(radial-gradient(center center, 400px 400px, hsl(34, 79%, 64%), white));
+  position: fixed;
+  top: $compass-diameter / 7;
+  right: $compass-diameter / 5;
+  box-shadow: 0 0 0px $compass-diameter / 20 hsl(0, 17%, 37%) inset;
+  border-radius: 100%;
+  display: block;
+  z-index: 99;
+  width: $compass-diameter;
+  height: $compass-diameter;
+  > div {
+    @include triangle-base;
+    > span {
+      position: relative;
+      background: $pointer-dark;
+      border-radius: 100px;
+      width: $compass-diameter / 4;
+      display: block;
+      text-align: center;
+      line-height: $compass-diameter / 4;
+      color: $pointer-light;
+      z-index: 8;
+      font-size: $compass-diameter / 8;
+    }
+    &:before {
+      content: " ";
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .north {
+    top: 0px;
+    left: $compass-diameter / 2 - $pointer-width;
+    border-width: 0 $pointer-width $pointer-height $pointer-width;
+    border-color: transparent transparent $pointer-dark transparent;
+    > span {
+      top: -$pointer-width;
+      left: -$pointer-width;
+    }
+    &:before {
+      top: 0px;
+      left: 0px;
+      border-width: 0 $pointer-width $pointer-height 0px;
+      border-color: transparent transparent white transparent;
+    }
+  }
+  .east {
+    top: $pointer-height - $pointer-width;
+    left: $pointer-height;
+    border-width: $pointer-width 0 $pointer-width $pointer-height;
+    border-color: transparent transparent transparent $pointer-dark;
+    > span {
+      left: -$pointer-width;
+      top: -$pointer-width;
+    }
+    &:before {
+      top: 0;
+      left: -$pointer-height;
+      border-width: 0 0 $pointer-width $pointer-height;
+      border-color: transparent transparent transparent $pointer-light;
+    }
+  }
+  .south {
+    top: $pointer-height;
+    left: $pointer-height - $pointer-width;
+    border-width: $pointer-height $pointer-width 0 $pointer-width;
+    border-color: $pointer-dark transparent transparent transparent;
+    > span {
+      left: -$pointer-width;
+      top: -$pointer-width;
+    }
+    &:before {
+      top: -$pointer-height;
+      left: -$pointer-width;
+      border-width: $pointer-height 0 0 $pointer-width;
+      border-color: $pointer-light transparent transparent transparent;
+    }
+  }
+  .west {
+    top: $pointer-height - $pointer-width;
+    left: 0;
+    border-width: $pointer-width $pointer-height $pointer-width 0;
+    border-color: transparent $pointer-dark transparent transparent;
+    > span {
+      left: -$pointer-width;
+      top: -$pointer-width;
+    }
+    &:before {
+      top: -$pointer-width;
+      left: 0px;
+      border-width: $pointer-width $pointer-height 0 0;
+      border-color: transparent $pointer-light transparent transparent;
+    }
+  }
+}
+
+#compass {
+  .center-back {
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: $pointer-dark;
+    top: $compass-diameter / 3.333;
+    left: $compass-diameter / 3.333;
+    background: lighten($pointer-dark, 20%);
+    z-index: 0;
+    border-width: $compass-diameter / 5.1;
+    border-color: $pointer-dark darken($pointer-light, 40%) $pointer-dark darken($pointer-light, 40%);
+    border-style: dotted;
+  }
+  .center-top {
+    display: block;
+    width: 0;
+    height: 0;
+    background: darken($pointer-dark, 5%);
+    box-shadow: 0 0 0px 2px lighten($pointer-dark, 14%) inset;
+    border-radius: 100px;
+    z-index: 10;
+    position: absolute;
+    border-width: $pointer-width * 1.1;
+    border-color: $pointer-light $pointer-dark $pointer-light $pointer-dark;
+    border-style: dotted;
+    top: $pointer-width * 2.9;
+    left: $pointer-width * 2.9;
+  }
+}
+
+#spinner {
+  display: block;
+  width: $pointer-width * 3;
+  height: $compass-diameter;
+  position: absolute;
+  @include transition-delay(0s);
+  @include transition-duration(3.5s);
+  @include transition-property(all);
+  @include transition-timing-function(ease);
+  z-index: 9;
+  left: $compass-diameter / 2 - $pointer-width * 1.5;
+  .north-seeker {
+    top: 0;
+    left: 0;
+    @include triangle-base;
+    border-width: $compass-diameter / 2 $pointer-width * 1.5 0px $pointer-width * 1.5;
+    border-color: red transparent transparent transparent;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(0.5turn);
+  }
+  .south-seeker {
+    top: $compass-diameter / 2;
+    left: 0;
+    @include triangle-base;
+    border-width: $compass-diameter / 2 $pointer-width * 1.5 0px $pointer-width * 1.5;
+    border-color: black transparent transparent transparent;
+  }
+}
+
+// Ship
+
+#left {
+  display: block;
+  width: 180px;
+  height: 300px;
+  position: absolute;
+  bottom: 1290px;
+  z-index: 1000;
+  left: 55px;
+}
+
+#right {
+  @extend #left;
+  left: 270px;
+}
+
+.ship {
+  -webkit-transform: translate3d(0, 0, 0);
+  z-index: 100;
+  width: 600px;
+  height: 800px;
+  bottom: -645px;
+  left: 100px;
+  background: brown;
+  margin: 0px auto;
+  position: fixed;
+  border-radius: 100%;
+  border: 20px solid darken(brown, 23%);
+  @include background-image(radial-gradient(darken(brown, 10%), darken(brown, 16%), darken(brown, 16%), darken(brown, 26%)));
+}
+
+$bg-color: #8f4c20;
+$darken-amount: 5%;
+$stripe-color: darken($bg-color, $darken-amount);
+
+.deck {
+  top: 50px;
+  left: 50px;
+  position: relative;
+  z-index: 101;
+  width: 500px;
+  height: 1300px;
+  border-radius: 100%;
+  background-color: $bg-color;
+  @include background-image(linear-gradient(0deg, $stripe-color 25%, transparent 25%, transparent 50%, $stripe-color 50%, $stripe-color 75%, transparent 75%, transparent));
+	box-shadow: inset 10px 15px 74px 0 hsla(0, 0%, 0%, 0.63);	
+  background-size: 40px 40px;
+  border: 1px solid hsl(19, 63%, 21%);
+}
+
+.steering-column {
+  width: 30px;
+  height: 200px;
+  background: red;
+  top: -130px;
+  left: 240px;
+  position: absolute;
+  &:after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    display: block;
+    background: red;
+    top: -10px;
+    left: -10px;
+    border-radius: 100%;
+    border-bottom: 1px solid darken(brown, 40%);
+  }
+}
+
+.steering-wheel {
+  @extend .round;
+  width: 230px;
+  height: 230px;
+  left: 140px;
+  top: -230px;
+  position: absolute;
+  background: transparent;
+  border: 15px solid brown;
+  box-shadow: 0 0 0 1px darken(brown, 35%), 0 0 0 1px darken(brown, 35%) inset;
+  @include transition-delay(0s);
+  @include transition-duration(2s);
+  @include transition-property(all);
+  @include transition-timing-function(ease);
+}
+
+.center-ring {
+  top: 50px;
+  left: 50px;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: hsla(351, 40%, 0%, 0%);
+  border: 17px solid darken(brown, 32%);
+  @extend .round;
+}
+
+.axle {
+  @extend .round;
+  width: 20px;
+  height: 20px;
+  left: 90px;
+  top: 90px;
+  //background: brown
+  position: absolute;
+}
+
+$spindles: 1, 2, 3, 4, 5, 6;
+$rotation: 360deg / length($spindles);
+
+.axle > span {
+  top: -160px;
+  left: 0px;
+  height: 140px;
+  width: 14px;
+  background: darken(brown, 10%);
+  display: block;
+  position: absolute;
+  border-radius: 20px 20px 20px 20px;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 47px;
+    left: -6px;
+    width: 20px;
+    height: 20px;
+    border: 4px solid darken(brown, 28%);
+    background: darken(brown, 22%);
+    @extend .round;
+  }
+}
+
+@each $spindle in $spindles {
+  .spindle-#{$spindle} {
+    @include simple-transform(1, $rotation * $spindle, 0, 0, 0, 0, 10px, 170px);
+  }
+}
+
+
+$bg-color: brown;
+$stripe-color: darken($bg-color, 5%);
+
+#USS-Webpop {
+  background: hsl(0, 59%, 41%);
+  position: absolute;
+  width: 235px;
+  height: 64px;
+  bottom: 58%;
+  left: 68%;
+  border-radius: 0 0 68px 75px;
+  background-color: $bg-color;
+  @include background-image(linear-gradient(0deg, $stripe-color 25%, transparent 25%, transparent 50%, $stripe-color 50%, $stripe-color 75%, transparent 75%, transparent));
+  background-size: 20px 20px;
+  box-shadow: inset -5px -5px 34px -5px hsl(29, 76%, 6%);	
+
+  .mast {
+  	height: 100px;
+    width: 10px;
+    background: darken(brown,10%);
+    display: block;
+    left:  110px;
+    top:  -100px;
+    position: absolute;
+    &:first-child {
+      left: 40px;
+    }
+    &:nth-child(2) .sail {
+      height: 120px;
+      width: 70px;
+      top: -26px;
+      left: -28px;
+    }
+    &:last-child {
+      left: 180px;
+    }
+    .sail {
+      @include background-image(linear-gradient(color-stops(hsl(40, 100%, 99%), hsl(37, 27%, 85%))));
+      position: absolute;
+      width: 53px;
+      height: 90px;
+      left: -20px;
+      display: block;
+      border-radius: 40% 0 0 0; 
+      box-shadow: inset -13px -21px 51px -5px hsl(29, 27%, 73%);
+    }
+  }
+}
+
